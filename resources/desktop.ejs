@@ -2,7 +2,7 @@
 <% if (productName) { %>Name=<%= productName %>
 <% } %><% if (description) { %>Comment=<%= description %>
 <% } %><% if (genericName) { %>GenericName=<%= genericName %>
-<% } %><% if (name) { %>Exec=sh -c "<%= name %> -- %U"
+<% } %><% if (name) { %>Exec=sh -c "<%= name %> --user-data-dir=<%= userDataDir %> -- %U"
 <% } %><% if (name) { %>Icon=<%= name %>
 <% } %>Type=Application
 StartupNotify=true
