@@ -128,6 +128,7 @@ var getDefaults = function (data, callback) {
       genericName: pkg.genericName || pkg.productName || pkg.name,
       description: pkg.description,
       productDescription: pkg.productDescription || pkg.description,
+      isXFCE: false,
       // Use '~' on pre-releases for proper Debian version ordering.
       // See https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version
       version: (pkg.version || '0.0.0').replace(/(\d)[_.+-]?((RC|rc|pre|dev|beta|alpha)[_.+-]?\d*)$/, '$1~$2'),

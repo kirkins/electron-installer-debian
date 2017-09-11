@@ -8,4 +8,8 @@
 StartupNotify=true
 <% if (categories && categories.length) { %>Categories=<%= categories.join(';') %>;
 <% } %><% if (mimeType && mimeType.length) { %>MimeType=<%= mimeType.join(';') %>;
+<% } %><% if (isXFCE && name) { %>Type=X-XFCE-Helper
+X-XFCE-Category=WebBrowser
+X-XFCE-Commands=/usr/bin/brave
+X-XFCE-CommandsWithParameter=sh -c "<%= name %> -- %U"
 <% } %>
