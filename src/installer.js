@@ -110,10 +110,8 @@ var getSize = function (options, callback) {
   fsize(options.src, callback)
 }
 
-var checkXfce = function (options, callback) {
-  options.logger('checking window manager')
-
-  spawn(options, 'sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err) {
+var checkXfce = function () {
+  spawn({}, 'sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err) {
     callback(err)
   })
 }
