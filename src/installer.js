@@ -111,7 +111,8 @@ var getSize = function (options, callback) {
 }
 
 var checkXfce = function () {
-  spawn({}, 'sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err) {
+  var options = {}
+  spawn(options, 'sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err) {
     callback(err)
   })
 }
@@ -127,6 +128,7 @@ var getDefaults = function (data, callback) {
   ], function (err, results) {
     var pkg = results[0] || {}
     var size = results[1] || 0
+    var xfce = checkXfce()
 
     var defaults = {
       name: pkg.name || 'electron',
@@ -134,7 +136,7 @@ var getDefaults = function (data, callback) {
       genericName: pkg.genericName || pkg.productName || pkg.name,
       description: pkg.description,
       productDescription: pkg.productDescription || pkg.description,
-      isXFCE: checkXfce(),
+      isXFCE: xfce,
       userDataDir: pkg.userDataDir || pkg.name,
       // Use '~' on pre-releases for proper Debian version ordering.
       // See https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version
