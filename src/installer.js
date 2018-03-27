@@ -111,8 +111,7 @@ var getSize = function (options, callback) {
 }
 
 var checkXfce = function () {
-  var options = {}
-  spawn(options, 'sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err) {
+  child.spawn('sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err) {
     callback(err)
   })
 }
