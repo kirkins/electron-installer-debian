@@ -111,10 +111,11 @@ var getSize = function (options, callback) {
 }
 
 var checkXfce = function (options, callback) {
-  options.logger('checking window manager')
-
-  spawn(options, 'sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err) {
-    callback(err)
+  options.logger('Checking if xfce')
+  child.exec('sh', ['-c', '[ $(echo $XDG_CURRENT_DESKTOP | awk \'{print tolower($0)}\') == "xfce" ] && echo true  || echo false'], function (err, stdout, stderr) {
+    console.log(err)
+    console.log(stderr)
+    return stdout
   })
 }
 
@@ -125,10 +126,12 @@ var checkXfce = function (options, callback) {
 var getDefaults = function (data, callback) {
   async.parallel([
     async.apply(readMeta, data),
-    async.apply(getSize, {src: data.src})
+    async.apply(getSize, {src: data.src}),
+    async.apply(checkXfce, data)
   ], function (err, results) {
     var pkg = results[0] || {}
     var size = results[1] || 0
+    var xfce = results[2] || false
 
     var defaults = {
       name: pkg.name || 'electron',
@@ -136,7 +139,7 @@ var getDefaults = function (data, callback) {
       genericName: pkg.genericName || pkg.productName || pkg.name,
       description: pkg.description,
       productDescription: pkg.productDescription || pkg.description,
-      isXFCE: checkXfce(),
+      isXFCE: xfce,
       userDataDir: pkg.userDataDir || pkg.name,
       // Use '~' on pre-releases for proper Debian version ordering.
       // See https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version
